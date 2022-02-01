@@ -21,5 +21,5 @@ namespace content {
     chrome.runtime.sendMessage({ type: "music-info", musicInfo });
   }
 
-  getInformation();
+  setInterval(() => sendInformation(getInformation()), 1000);
 }
