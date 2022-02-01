@@ -4,7 +4,7 @@ namespace content {
   const image = document.querySelector<HTMLImageElement>(".image.style-scope.ytmusic-player-bar");
   const playing = document.querySelector<HTMLHeadingElement>("#play-pause-button");
 
-  function getInformation(): MusicInfo | null {
+  function getInformation(): MusicInfo {
     const songInfoArray = songInfo?.innerText.split("\n");
     return {
       title: title?.innerText || null,
