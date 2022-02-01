@@ -1,4 +1,11 @@
 namespace content {
+  enum HTMLSelector {
+    TITLE = ".title.style-scope.ytmusic-player-bar",
+    SONG_INFO = ".byline-wrapper.style-scope.ytmusic-player-bar",
+    IMAGE = ".image.style-scope.ytmusic-player-bar",
+    PLAYING = "#play-pause-button",
+  }
+
   const title = document.querySelector<HTMLHeadingElement>(HTMLSelector.TITLE);
   const songInfo = document.querySelector<HTMLHeadingElement>(HTMLSelector.SONG_INFO);
   const image = document.querySelector<HTMLImageElement>(HTMLSelector.IMAGE);
