@@ -1,0 +1,12 @@
+{
+	"name": "youtube-music-info",
+	"version": "1.0.0",
+	"main": "index.js",
+	"license": "MIT",
+	"scripts": {
+		"build": "tsc"
+	},
+	"devDependencies": {
+		"@types/chrome": "^0.0.177"
+	}
+}

@@ -1,0 +1,28 @@
+:root {
+	--main-bg-color: #2c2f33;
+	--main-text-color: #fff;
+}
+
+body {
+	width: 400px;
+	background-color: var(--main-bg-color);
+	color: #fff;
+}
+
+#content-url {
+	width: 100%;
+	height: 100%;
+	padding: 10px;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+}
+
+#content-url div {
+	display: flex;
+}
+
+#input-url {
+	background-color: var(--main-bg-color);
+	color: var(--main-text-color);
+}
