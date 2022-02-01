@@ -4,11 +4,11 @@ type Settings = {
 };
 
 type MusicInfo = {
-  title: string;
-  artist: string;
-  album: string;
-  year: string;
+  title: string | null;
+  artist: string | null;
+  album: string | null;
+  year: string | null;
   image: string | null;
-  url: string;
+  url: string | null;
   playing: boolean;
 };
