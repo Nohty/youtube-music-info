@@ -17,7 +17,9 @@ namespace content {
     };
   }
 
-  // TODO: Send Youtube Music information to background.ts
+  function sendInformation(musicInfo: MusicInfo) {
+    chrome.runtime.sendMessage({ type: "music-info", musicInfo });
+  }
 
   getInformation();
 }
