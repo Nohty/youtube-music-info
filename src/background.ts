@@ -9,4 +9,6 @@ namespace background {
   }
 
   chrome.runtime.onInstalled.addListener(() => saveSettings(SETTINGS));
+
+  // TODO: Create socket.io client
 }
