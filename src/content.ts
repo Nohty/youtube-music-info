@@ -1,8 +1,8 @@
 namespace content {
-  const title = document.querySelector<HTMLHeadingElement>(".title.style-scope.ytmusic-player-bar");
-  const songInfo = document.querySelector<HTMLHeadingElement>(".byline-wrapper.style-scope.ytmusic-player-bar");
-  const image = document.querySelector<HTMLImageElement>(".image.style-scope.ytmusic-player-bar");
-  const playing = document.querySelector<HTMLHeadingElement>("#play-pause-button");
+  const title = document.querySelector<HTMLHeadingElement>(HTMLSelector.TITLE);
+  const songInfo = document.querySelector<HTMLHeadingElement>(HTMLSelector.SONG_INFO);
+  const image = document.querySelector<HTMLImageElement>(HTMLSelector.IMAGE);
+  const playing = document.querySelector<HTMLHeadingElement>(HTMLSelector.PLAYING);
 
   function getInformation(): MusicInfo {
     const songInfoArray = songInfo?.innerText.split("\n");
