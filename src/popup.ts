@@ -5,11 +5,11 @@ namespace popup {
   let SETTINGS: Settings;
 
   async function getSettings(): Promise<Settings> {
-    return (await chrome.storage.sync.get("settings")).settings;
+    return (await chrome.storage.local.get("settings")).settings;
   }
 
   async function saveSettings(settings: Settings) {
-    await chrome.storage.sync.set({ settings });
+    await chrome.storage.local.set({ settings });
   }
 
   function getButtonText() {
