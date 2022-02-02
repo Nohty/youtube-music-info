@@ -7,8 +7,7 @@ namespace background {
   const MUSIC_URL = "https://music.youtube.com/";
 
   let interval: number | null = null;
-  let MUSIC_INFO: MusicInfo;
-  let SOCKET: any = null;
+  let tabId: number | null = null;
 
   async function saveSettings(settings: Settings) {
     await chrome.storage.local.set({ settings });
@@ -18,11 +17,14 @@ namespace background {
     return (await chrome.storage.local.get("settings")).settings;
   }
 
-  function handleTabUpdate(tabId: any, changeInfo: any, tab: chrome.tabs.Tab) {
+  function handleTabUpdate(id: number, changeInfo: any, tab: chrome.tabs.Tab) {
     if (tab.status === "complete") {
-      if (tab.url?.startsWith(MUSIC_URL) && !SOCKET && SETTINGS.enabled) {
-        createSocketServer();
+      if (tab.url?.startsWith(MUSIC_URL) && !tabId && SETTINGS.enabled) {
+        tabId = id;
+        chrome.tabs.sendMessage(id, { type: "init", status: true });
         interval = setInterval(checkTabOpen, 1000);
+      } else if (tabId === id && SETTINGS.enabled) {
+        chrome.tabs.sendMessage(id, { type: "init", status: true });
       }
     }
   }
@@ -30,29 +32,25 @@ namespace background {
   async function checkTabOpen() {
     const tabs = await chrome.tabs.query({ url: MUSIC_URL });
     if (tabs.length === 0) {
-      closeSocketServer();
+      tabId = null;
       if (interval) clearInterval(interval);
-    }
-  }
-
-  async function handleMessage(request: any, sender: any, sendResponse: any) {
-    if (request.type === "music-info") {
-      if (MUSIC_INFO !== request.musicInfo) {
-        MUSIC_INFO = request.musicInfo;
+    } else {
+      if (!tabs.some(({ id }) => id === tabId)) {
+        tabId = tabs[0].id!;
+        if (SETTINGS.enabled) chrome.tabs.sendMessage(tabId, { type: "init", status: true });
       }
-    } else if (request.type === "update") {
-      SETTINGS = await getSettings();
     }
   }
 
-  async function createSocketServer() {
-    console.log("Creating socket server");
-    SOCKET = true;
-  }
-
-  async function closeSocketServer() {
-    console.log("Closing socket server");
-    SOCKET = null;
+  async function handleMessage(message: any, sender: chrome.runtime.MessageSender) {
+    if (message.type === "update") {
+      SETTINGS = await getSettings();
+      if (!SETTINGS.enabled && tabId) {
+        chrome.tabs.sendMessage(tabId, { type: "init", status: false });
+      } else if (SETTINGS.enabled && tabId) {
+        chrome.tabs.sendMessage(tabId, { type: "init", status: true });
+      }
+    }
   }
 
   chrome.runtime.onInstalled.addListener(() => saveSettings(SETTINGS));
