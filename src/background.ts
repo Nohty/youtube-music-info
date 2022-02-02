@@ -35,16 +35,6 @@ namespace background {
     }
   }
 
-  async function createSocketServer() {
-    console.log("Creating socket server");
-    SOCKET = true;
-  }
-
-  async function closeSocketServer() {
-    console.log("Closing socket server");
-    SOCKET = null;
-  }
-
   async function handleMessage(request: any, sender: any, sendResponse: any) {
     if (request.type === "music-info") {
       if (MUSIC_INFO !== request.musicInfo) {
@@ -53,6 +43,16 @@ namespace background {
     } else if (request.type === "update") {
       SETTINGS = await getSettings();
     }
+  }
+
+  async function createSocketServer() {
+    console.log("Creating socket server");
+    SOCKET = true;
+  }
+
+  async function closeSocketServer() {
+    console.log("Closing socket server");
+    SOCKET = null;
   }
 
   chrome.runtime.onInstalled.addListener(() => saveSettings(SETTINGS));
