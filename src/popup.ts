@@ -10,6 +10,11 @@ namespace popup {
 
   async function saveSettings(settings: Settings) {
     await chrome.storage.local.set({ settings });
+    sendUpdate();
+  }
+
+  function sendUpdate() {
+    chrome.runtime.sendMessage({ type: "update" });
   }
 
   function getButtonText() {
