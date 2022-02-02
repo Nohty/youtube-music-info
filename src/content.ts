@@ -16,6 +16,7 @@ namespace content {
   let info: MusicInfo = createEmptyInfo();
   let socket: any;
   let interval: number;
+  let enabled = false;
 
   function getInformation(): MusicInfo {
     const songInfoArray = songInfo?.innerText.split("\n");
@@ -62,17 +63,21 @@ namespace content {
     socket = io((await getSettings()).url);
     socket.on("yt-music:update", () => socket.emit("yt-music", info));
     interval = setInterval(checkInformation, 1000);
+    enabled = true;
   }
 
   function disableSocketClient() {
     socket.close();
     clearInterval(interval);
+    enabled = false;
   }
 
-  function handleMessage(message: any) {
+  function handleMessage(message: any, sender: any, sendResponse: (response: any) => void) {
     if (message.type === "init") {
       if (message.status) enableSocketClient();
       else disableSocketClient();
+    } else if (message.type === "status") {
+      sendResponse({ enabled });
     }
   }
 

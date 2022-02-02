@@ -24,13 +24,15 @@ namespace background {
         chrome.tabs.sendMessage(id, { type: "init", status: true });
         interval = setInterval(checkTabOpen, 1000);
       } else if (tabId === id && SETTINGS.enabled) {
-        chrome.tabs.sendMessage(id, { type: "init", status: true });
+        chrome.tabs.sendMessage(tabId!, { type: "status" }, ({ enabled }) => {
+          if (!enabled) chrome.tabs.sendMessage(id, { type: "init", status: true });
+        });
       }
     }
   }
 
   async function checkTabOpen() {
-    const tabs = await chrome.tabs.query({ url: MUSIC_URL });
+    const tabs = await chrome.tabs.query({ url: `${MUSIC_URL}*` });
     if (tabs.length === 0) {
       tabId = null;
       if (interval) clearInterval(interval);
