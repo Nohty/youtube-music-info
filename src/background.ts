@@ -1,5 +1,5 @@
 namespace background {
-  const SETTINGS: Settings = {
+  let SETTINGS: Settings = {
     enabled: true,
     url: "http://localhost:3002/",
   };
@@ -14,9 +14,13 @@ namespace background {
     await chrome.storage.local.set({ settings });
   }
 
-  async function handleTabUpdate(tabId: any, changeInfo: any, tab: chrome.tabs.Tab) {
+  async function getSettings(): Promise<Settings> {
+    return (await chrome.storage.local.get("settings")).settings;
+  }
+
+  function handleTabUpdate(tabId: any, changeInfo: any, tab: chrome.tabs.Tab) {
     if (tab.status === "complete") {
-      if (tab.url?.startsWith(MUSIC_URL) && !SOCKET) {
+      if (tab.url?.startsWith(MUSIC_URL) && !SOCKET && SETTINGS.enabled) {
         createSocketServer();
         interval = setInterval(checkTabOpen, 1000);
       }
@@ -24,7 +28,6 @@ namespace background {
   }
 
   async function checkTabOpen() {
-    console.log("checkTabOpen");
     const tabs = await chrome.tabs.query({ url: MUSIC_URL });
     if (tabs.length === 0) {
       closeSocketServer();
@@ -42,11 +45,13 @@ namespace background {
     SOCKET = null;
   }
 
-  function handleMessage(request: any, sender: any, sendResponse: any) {
+  async function handleMessage(request: any, sender: any, sendResponse: any) {
     if (request.type === "music-info") {
       if (MUSIC_INFO !== request.musicInfo) {
         MUSIC_INFO = request.musicInfo;
       }
+    } else if (request.type === "update") {
+      SETTINGS = await getSettings();
     }
   }
 
