@@ -12,3 +12,5 @@ type MusicInfo = {
   url: string | null;
   playing: boolean;
 };
+
+const io: (url: string) => any;
