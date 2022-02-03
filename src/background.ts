@@ -6,7 +6,7 @@ namespace background {
 
   const MUSIC_URL = "https://music.youtube.com/";
 
-  let interval: number | null = null;
+  let interval: any | null = null;
   let tabId: number | null = null;
 
   async function saveSettings(settings: Settings) {

@@ -15,7 +15,7 @@ namespace content {
 
   let info: MusicInfo = createEmptyInfo();
   let socket: any;
-  let interval: number;
+  let interval: any;
   let enabled = false;
 
   function getInformation(): MusicInfo {
