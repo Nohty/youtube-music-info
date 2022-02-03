@@ -3,6 +3,11 @@
   "version": "1.0.0",
   "main": "index.js",
   "license": "GPL-3.0 License",
+  "description": "Get the info of a youtube music song.",
+  "author": {
+    "name": "Daan Hautekiet",
+    "email": "daanhautekiet@gmail.com"
+  },
   "scripts": {
     "build": "tsc"
   },
