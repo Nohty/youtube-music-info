@@ -1,6 +1,6 @@
 {
   "name": "youtube-music-info",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "main": "index.js",
   "license": "GPL-3.0 License",
   "description": "Get the info of a youtube music song.",
